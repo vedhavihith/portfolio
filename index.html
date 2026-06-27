@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Portfolio</title>
+  <meta name="description" content="A premium interactive portfolio showcasing projects, experience, and skills with custom design theme options.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="container">
+      <a href="#hero" class="logo">
+        <span id="logo-text">Developer</span><span class="logo-dot"></span>
+      </a>
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#hero" class="nav-link active" data-section="hero">Home</a>
+        <a href="#about" class="nav-link" data-section="about">About</a>
+        <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+        <a href="#experience" class="nav-link" data-section="experience">Experience</a>
+        <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+      </nav>
+      <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle navigation menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Theme Accent Customizer -->
+  <div class="theme-configurator" id="theme-configurator">
+    <span class="theme-title">Accent:</span>
+    <div class="color-option violet active" data-hue="262" data-saturation="83%" data-lightness="58%" title="Violet Glow"></div>
+    <div class="color-option emerald" data-hue="142" data-saturation="70%" data-lightness="45%" title="Emerald Glow"></div>
+    <div class="color-option crimson" data-hue="342" data-saturation="85%" data-lightness="55%" title="Crimson Glow"></div>
+    <div class="color-option amber" data-hue="38" data-saturation="92%" data-lightness="50%" title="Amber Glow"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="section" id="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <div class="hero-subtitle" id="hero-subtitle">WELCOME TO MY PORTFOLIO</div>
+        <h1 class="hero-title">Hi, I'm <span id="hero-name">Alex Morgan</span></h1>
+        <div class="hero-typing-wrap">
+          <span class="typed-text" id="typed-text"></span>
+        </div>
+        <p class="hero-description" id="hero-description">
+          Passionate engineer specialized in building high-performance, visually gorgeous web applications. Combining clean architecture with modern interactive design.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">
+            <span>View Projects</span>
+            <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+          </a>
+          <a href="#contact" class="btn btn-secondary">Contact Me</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="blob-container">
+          <div class="glowing-blob">
+            <div class="blob-inner-avatar"></div>
+          </div>
+          <div class="blob-glow-ring"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About & Skills Section -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">About Me</span>
+        <h2 class="section-title">My Biography & Skills</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-bio-wrap">
+          <div class="about-bio" id="about-bio">
+            <p>I build clean, accessible, and performant web products. Over the years, I've worked across different tech stacks, design guidelines, and business models to bring user-focused applications to life.</p>
+            <p>I enjoy solving complex engineering challenges and creating seamless interactive flows. When I'm not writing code, you can find me exploring interface designs, testing new tools, or contributing to open-source components.</p>
+          </div>
+          <div class="about-info-grid">
+            <div class="info-item">
+              <span class="info-label">Location</span>
+              <span class="info-value" id="info-location">San Francisco, CA</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Email</span>
+              <span class="info-value" id="info-email">alex.morgan@example.com</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="skills-column">
+          <div>
+            <h3 class="skills-category-title">Frontend Development</h3>
+            <div class="skills-list" id="skills-frontend">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div>
+            <h3 class="skills-category-title">Backend & Database</h3>
+            <div class="skills-list" id="skills-backend">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div>
+            <h3 class="skills-category-title">Tools & Design</h3>
+            <div class="skills-list" id="skills-tools">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Certifications & Achievements Sub-section -->
+      <div class="certs-achievements-container">
+        <div class="certs-column">
+          <h3 class="skills-category-title certs-title">
+            <i data-lucide="award" style="vertical-align: middle; margin-right: 0.5rem; width: 20px; height: 20px; color: var(--accent-color);"></i>
+            Certifications
+          </h3>
+          <div class="certs-list" id="certifications-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+        <div class="achievements-column">
+          <h3 class="skills-category-title certs-title">
+            <i data-lucide="trophy" style="vertical-align: middle; margin-right: 0.5rem; width: 20px; height: 20px; color: var(--accent-color);"></i>
+            Key Achievements
+          </h3>
+          <div class="achievements-list" id="achievements-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Showcase</span>
+        <h2 class="section-title">Featured Projects</h2>
+      </div>
+      
+      <!-- Filter Buttons -->
+      <div class="portfolio-filter-buttons" id="filter-buttons">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="web-apps">Web Apps</button>
+        <button class="filter-btn" data-filter="ai-ml">AI & ML</button>
+        <button class="filter-btn" data-filter="analytics">Data Analytics</button>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-grid" id="projects-grid">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience & Education Section -->
+  <section class="section" id="experience">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Timeline</span>
+        <h2 class="section-title">Experience & Education</h2>
+      </div>
+      <div class="timeline" id="timeline-container">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Get in touch</span>
+        <h2 class="section-title">Let's Collaborate</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p class="contact-intro-text">
+            Have an exciting project idea, a position to fill, or just want to chat about web technologies? Feel free to drop a message or reach out on social networks!
+          </p>
+          <div class="contact-methods">
+            <div class="contact-method-item">
+              <div class="contact-method-icon">
+                <i data-lucide="mail"></i>
+              </div>
+              <div class="contact-method-details">
+                <h4>Email Me</h4>
+                <p id="contact-email">alex.morgan@example.com</p>
+              </div>
+            </div>
+            <div class="contact-method-item">
+              <div class="contact-method-icon">
+                <i data-lucide="map-pin"></i>
+              </div>
+              <div class="contact-method-details">
+                <h4>Location</h4>
+                <p id="contact-location">San Francisco, CA (Open to Remote)</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="social-links" id="social-links">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Contact Form Card -->
+        <div class="glass-card contact-form-wrap">
+          <form id="contact-form" novalidate>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="form-name" class="form-label">Your Name</label>
+                <input type="text" id="form-name" class="form-input" placeholder="John Doe" required>
+                <div class="error-text" id="error-name">Please enter your name.</div>
+              </div>
+              <div class="form-group">
+                <label for="form-email" class="form-label">Email Address</label>
+                <input type="email" id="form-email" class="form-input" placeholder="john@example.com" required>
+                <div class="error-text" id="error-email">Please enter a valid email address.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="form-subject" class="form-label">Subject</label>
+              <input type="text" id="form-subject" class="form-input" placeholder="Project Inquiry" required>
+              <div class="error-text" id="error-subject">Please enter a subject.</div>
+            </div>
+            <div class="form-group">
+              <label for="form-message" class="form-label">Message</label>
+              <textarea id="form-message" class="form-input" placeholder="Hello Alex, I'd like to talk about..." required></textarea>
+              <div class="error-text" id="error-message">Please enter your message.</div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <span>Send Message</span>
+              <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+            </button>
+          </form>
+
+          <!-- Success Overlay -->
+          <div class="form-success-overlay" id="form-success-overlay">
+            <div class="success-icon-wrap">
+              <i data-lucide="check"></i>
+            </div>
+            <h3 class="success-title">Message Sent!</h3>
+            <p class="success-message">Thank you for reaching out. I'll get back to you within 24 hours.</p>
+            <button class="btn btn-secondary" id="btn-success-reset" style="margin-top: 1.5rem;">Send Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Details Modal -->
+  <div class="modal" id="project-modal">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-wrapper">
+      <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="modal-body" id="modal-body-content">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="copyright">
+        &copy; <span id="footer-year">2026</span> <span id="footer-name">Alex Morgan</span>. All rights reserved.
+      </div>
+      <button class="scroll-top-btn" id="scroll-top-btn" aria-label="Scroll to top">
+        <i data-lucide="arrow-up"></i>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Load Portfolio Data first -->
+  <script src="projects-data.js"></script>
+  <!-- Main Portfolio Application Code -->
+  <script src="app.js"></script>
+</body>
+</html>

@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initProjects();
   initTimeline();
   initCertifications();
+  initCertLightbox();
+  initScrollReveal();
   
   // Initialize Lucide Icons
   if (typeof lucide !== 'undefined') {
@@ -75,69 +77,150 @@ function initSkills() {
   const backendContainer = document.getElementById("skills-backend");
   const toolsContainer = document.getElementById("skills-tools");
 
-  frontendContainer.innerHTML = "";
-  backendContainer.innerHTML = "";
-  toolsContainer.innerHTML = "";
+  if (frontendContainer) frontendContainer.innerHTML = "";
+  if (backendContainer) backendContainer.innerHTML = "";
+  if (toolsContainer) toolsContainer.innerHTML = "";
 
   skills.forEach(skill => {
     const tag = document.createElement("div");
     tag.className = "skill-tag";
     tag.innerHTML = `<span>${skill.name}</span>`;
     
-    if (skill.category === "frontend") {
+    if (skill.category === "frontend" && frontendContainer) {
       frontendContainer.appendChild(tag);
-    } else if (skill.category === "backend") {
+    } else if (skill.category === "backend" && backendContainer) {
       backendContainer.appendChild(tag);
-    } else {
+    } else if (toolsContainer) {
       toolsContainer.appendChild(tag);
     }
   });
 }
 
-// Initialize Projects grid
+// Initialize Projects Grid with 3D Flip Card Engine
 function initProjects() {
   if (!window.portfolioData) return;
   const projects = window.portfolioData.projects;
   const grid = document.getElementById("projects-grid");
+  if (!grid) return;
   grid.innerHTML = "";
 
   projects.forEach(project => {
-    const card = document.createElement("div");
-    card.className = "glass-card project-card";
-    card.dataset.category = project.category;
-    card.id = `card-${project.id}`;
+    const cardContainer = document.createElement("div");
+    cardContainer.className = "project-card-container reveal-on-scroll";
+    cardContainer.dataset.category = project.category;
+    cardContainer.id = `card-${project.id}`;
+    cardContainer.setAttribute("tabindex", "0");
+    cardContainer.setAttribute("role", "button");
+    cardContainer.setAttribute("aria-label", `Project card for ${project.title}. Click to flip card.`);
 
-    // Select project icon based on tags/category
     let iconName = "code-2";
     if (project.category === "design") iconName = "palette";
     else if (project.category === "open-source") iconName = "git-branch";
-    else if (project.tags.includes("React") || project.tags.includes("Next.js")) iconName = "layout";
 
-    card.innerHTML = `
-      <div class="project-card-image-wrapper">
-        ${project.image ? `
-          <img src="${project.image}" alt="${project.title}" class="project-card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        ` : ''}
-        <div class="project-card-image-placeholder" style="${project.image ? 'display: none;' : 'display: flex;'}">
-          <i data-lucide="${iconName}" class="project-icon"></i>
+    cardContainer.innerHTML = `
+      <div class="project-card-inner">
+        <!-- FRONT SIDE -->
+        <div class="project-card-front">
+          <div class="project-card-image-wrapper">
+            ${project.image ? `
+              <img src="${project.image}" alt="${project.title}" class="project-card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            ` : ''}
+            <div class="project-card-image-placeholder" style="${project.image ? 'display: none;' : 'display: flex;'}">
+              <i data-lucide="${iconName}" class="project-icon"></i>
+            </div>
+          </div>
+          <div class="project-card-front-content">
+            <div class="project-card-tags">
+              ${project.tags.map(t => `<span class="project-card-tag">${t}</span>`).join("")}
+            </div>
+            <h3 class="project-card-title">${project.title}</h3>
+            <p class="project-card-short-desc">${project.shortDescription}</p>
+            <div class="project-card-flip-hint">
+              <span>View Repository Overview</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="project-card-content">
-        <div class="project-card-tags">
-          ${project.tags.map(t => `<span class="project-card-tag">${t}</span>`).join("")}
-        </div>
-        <h3 class="project-card-title">${project.title}</h3>
-        <p class="project-card-desc">${project.shortDescription}</p>
-        <div class="project-card-links">
-          <a href="#" class="project-card-link open-details-btn" data-id="${project.id}">
-            <span>View Details</span>
-            <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
-          </a>
+
+        <!-- BACK SIDE -->
+        <div class="project-card-back">
+          <div class="project-card-back-header">
+            <div class="github-header-badge">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              <span>GitHub Repository Preview</span>
+            </div>
+            <button class="flip-back-btn" title="Flip back to front" aria-label="Flip back">
+              <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+            </button>
+          </div>
+          
+          <div class="project-card-back-content">
+            <h3 class="project-card-back-title">${project.title}</h3>
+            
+            <div class="project-card-tech-section">
+              <span class="tech-label">Technologies Used</span>
+              <div class="project-card-tags">
+                ${project.tags.map(t => `<span class="project-card-tag tech-tag">${t}</span>`).join("")}
+              </div>
+            </div>
+
+            <div class="project-card-features-preview">
+              <span class="tech-label">Key Highlights & Specifications</span>
+              <ul class="back-features-list">
+                ${project.features.map(f => `<li>${f}</li>`).join("")}
+              </ul>
+            </div>
+
+            <div class="project-card-back-actions">
+              ${project.codeLink && project.codeLink !== '#' ? `
+                <a href="${project.codeLink}" target="_blank" rel="noopener noreferrer" class="btn github-repo-btn">
+                  <span>View on GitHub</span>
+                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
+              ` : `
+                <span class="private-repo-badge">Internal / Private Repository</span>
+              `}
+            </div>
+          </div>
         </div>
       </div>
     `;
-    grid.appendChild(card);
+
+    // 3D Flip Card Interaction
+    cardContainer.addEventListener("click", (e) => {
+      // Prevent flipping if user clicked directly on the GitHub repo link
+      if (e.target.closest(".github-repo-btn")) {
+        e.stopPropagation();
+        return;
+      }
+      cardContainer.classList.toggle("flipped");
+    });
+
+    // Flip back button explicitly
+    const flipBackBtn = cardContainer.querySelector(".flip-back-btn");
+    if (flipBackBtn) {
+      flipBackBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        cardContainer.classList.remove("flipped");
+      });
+    }
+
+    // Keyboard navigation (Enter / Space)
+    cardContainer.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        if (!e.target.closest(".github-repo-btn")) {
+          e.preventDefault();
+          cardContainer.classList.toggle("flipped");
+        }
+      }
+    });
+
+    grid.appendChild(cardContainer);
   });
+  
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
 }
 
 // Initialize Experience & Education Timeline
@@ -145,11 +228,12 @@ function initTimeline() {
   if (!window.portfolioData) return;
   const items = window.portfolioData.experience;
   const container = document.getElementById("timeline-container");
+  if (!container) return;
   container.innerHTML = "";
 
   items.forEach(item => {
     const timelineItem = document.createElement("div");
-    timelineItem.className = "timeline-item";
+    timelineItem.className = "timeline-item reveal-on-scroll";
     
     timelineItem.innerHTML = `
       <div class="timeline-node"></div>
@@ -173,6 +257,7 @@ function initTypingEffect() {
   if (!window.portfolioData) return;
   const words = window.portfolioData.profile.titles;
   const textElement = document.getElementById("typed-text");
+  if (!textElement) return;
   
   let wordIndex = 0;
   let charIndex = 0;
@@ -192,19 +277,17 @@ function initTypingEffect() {
     textElement.textContent = currentWord.substring(0, charIndex);
 
     if (!isDeleting && charIndex === currentWord.length) {
-      // Pause at the end of the word
       typingSpeed = 2000;
       isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
       isDeleting = false;
       wordIndex = (wordIndex + 1) % words.length;
-      typingSpeed = 500; // brief pause before next word
+      typingSpeed = 500;
     }
 
     setTimeout(type, typingSpeed);
   }
 
-  // Start typing
   if (words.length > 0) {
     type();
   }
@@ -214,7 +297,6 @@ function initTypingEffect() {
 function initThemeSwitcher() {
   const options = document.querySelectorAll(".color-option");
   
-  // Check localStorage for saved theme
   const savedHue = localStorage.getItem("portfolio-accent-hue");
   const savedSat = localStorage.getItem("portfolio-accent-sat");
   const savedLit = localStorage.getItem("portfolio-accent-lit");
@@ -245,7 +327,6 @@ function initThemeSwitcher() {
       document.documentElement.style.setProperty("--accent-saturation", sat);
       document.documentElement.style.setProperty("--accent-lightness", lit);
 
-      // Save to localStorage
       localStorage.setItem("portfolio-accent-hue", hue);
       localStorage.setItem("portfolio-accent-sat", sat);
       localStorage.setItem("portfolio-accent-lit", lit);
@@ -261,7 +342,8 @@ function initNavigation() {
   const navLinks = document.querySelectorAll(".nav-link");
   const sections = document.querySelectorAll("section");
 
-  // Scroll effect on Navbar
+  if (!navbar) return;
+
   window.addEventListener("scroll", () => {
     if (window.scrollY > 50) {
       navbar.classList.add("scrolled");
@@ -269,11 +351,9 @@ function initNavigation() {
       navbar.classList.remove("scrolled");
     }
     
-    // Highlight Active Link on Scroll
     let current = "";
     sections.forEach(section => {
       const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
       if (window.scrollY >= sectionTop - 150) {
         current = section.getAttribute("id");
       }
@@ -287,33 +367,37 @@ function initNavigation() {
     });
   });
 
-  // Mobile Toggle menu click
-  toggle.addEventListener("click", () => {
-    menu.classList.toggle("active");
-    const icon = toggle.querySelector("i");
-    if (menu.classList.contains("active")) {
-      icon.setAttribute("data-lucide", "x");
-    } else {
-      icon.setAttribute("data-lucide", "menu");
-    }
-    lucide.createIcons();
-  });
-
-  // Close menu when clicking link
-  navLinks.forEach(link => {
-    link.addEventListener("click", () => {
-      menu.classList.remove("active");
+  if (toggle && menu) {
+    toggle.addEventListener("click", () => {
+      menu.classList.toggle("active");
       const icon = toggle.querySelector("i");
-      icon.setAttribute("data-lucide", "menu");
-      lucide.createIcons();
+      if (icon) {
+        if (menu.classList.contains("active")) {
+          icon.setAttribute("data-lucide", "x");
+        } else {
+          icon.setAttribute("data-lucide", "menu");
+        }
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
     });
-  });
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        menu.classList.remove("active");
+        const icon = toggle.querySelector("i");
+        if (icon) {
+          icon.setAttribute("data-lucide", "menu");
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+      });
+    });
+  }
 }
 
 // Project Filtering Logic
 function initProjectFiltering() {
   const buttons = document.querySelectorAll(".filter-btn");
-  const cards = document.querySelectorAll(".project-card");
+  const cards = document.querySelectorAll(".project-card-container");
 
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -323,9 +407,9 @@ function initProjectFiltering() {
       const filter = btn.dataset.filter;
 
       cards.forEach(card => {
+        card.classList.remove("flipped");
         if (filter === "all" || card.dataset.category === filter) {
-          card.style.display = "flex";
-          // Add animation
+          card.style.display = "block";
           card.style.animation = "fadeInUp 0.4s ease forwards";
         } else {
           card.style.display = "none";
@@ -341,61 +425,15 @@ function initModal() {
   const backdrop = document.getElementById("modal-backdrop");
   const closeBtn = document.getElementById("modal-close-btn");
   const content = document.getElementById("modal-body-content");
+  if (!modal) return;
   
-  // Use event delegation for dynamic open buttons
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".open-details-btn");
-    if (!btn) return;
-    
-    e.preventDefault();
-    const id = btn.dataset.id;
-    const project = window.portfolioData.projects.find(p => p.id === id);
-    if (!project) return;
-
-    // Fill Modal Content
-    content.innerHTML = `
-      <h2 class="modal-title">${project.title}</h2>
-      <div class="modal-tags">
-        ${project.tags.map(t => `<span class="modal-tag">${t}</span>`).join("")}
-      </div>
-      <p class="modal-desc">${project.longDescription}</p>
-      
-      <h3 class="modal-subheading">Key Highlights & Features</h3>
-      <ul class="modal-features-list">
-        ${project.features.map(f => `<li>${f}</li>`).join("")}
-      </ul>
-      
-      <div class="modal-actions">
-        ${project.demoLink && project.demoLink !== '#' ? `
-          <a href="${project.demoLink}" target="_blank" class="btn btn-primary">
-            <span>Live Demo</span>
-            <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>
-          </a>
-        ` : ''}
-        ${project.codeLink && project.codeLink !== '#' ? `
-          <a href="${project.codeLink}" target="_blank" class="btn btn-secondary">
-            <span>Source Code</span>
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 2px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-          </a>
-        ` : ''}
-      </div>
-    `;
-    
-    // Re-trigger lucide icons
-    lucide.createIcons();
-    
-    // Open Modal
-    modal.classList.add("active");
-    document.body.style.overflow = "hidden"; // Disable body scroll
-  });
-
   const closeModal = () => {
     modal.classList.remove("active");
-    document.body.style.overflow = ""; // Enable body scroll
+    document.body.style.overflow = "";
   };
 
-  closeBtn.addEventListener("click", closeModal);
-  backdrop.addEventListener("click", closeModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  if (backdrop) backdrop.addEventListener("click", closeModal);
 }
 
 // Contact Form Validation & Submission
@@ -403,10 +441,10 @@ function initContactForm() {
   const form = document.getElementById("contact-form");
   const overlay = document.getElementById("form-success-overlay");
   const resetBtn = document.getElementById("btn-success-reset");
+  if (!form) return;
 
   const inputs = form.querySelectorAll(".form-input");
 
-  // Validate single input
   function validateInput(input) {
     const errorText = document.getElementById(`error-${input.id.replace("form-", "")}`);
     let isValid = true;
@@ -414,7 +452,6 @@ function initContactForm() {
     if (input.required && !input.value.trim()) {
       isValid = false;
     } else if (input.type === "email" && input.value.trim()) {
-      // Regex check for email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(input.value.trim())) {
         isValid = false;
@@ -432,18 +469,15 @@ function initContactForm() {
     return isValid;
   }
 
-  // Live validation on blur
   inputs.forEach(input => {
     input.addEventListener("blur", () => validateInput(input));
     input.addEventListener("input", () => {
-      // Remove error state as user types
       if (input.classList.contains("error")) {
         validateInput(input);
       }
     });
   });
 
-  // Submit Handler
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     let isFormValid = true;
@@ -455,7 +489,6 @@ function initContactForm() {
     });
 
     if (isFormValid) {
-      // Save submission data to localStorage for testing/demo
       const submission = {
         name: document.getElementById("form-name").value.trim(),
         email: document.getElementById("form-email").value.trim(),
@@ -468,21 +501,22 @@ function initContactForm() {
       submissions.push(submission);
       localStorage.setItem("portfolio-contacts", JSON.stringify(submissions));
 
-      // Trigger animation and reveal overlay
-      overlay.classList.add("active");
+      if (overlay) overlay.classList.add("active");
     }
   });
 
-  // Reset Success overlay
-  resetBtn.addEventListener("click", () => {
-    form.reset();
-    overlay.classList.remove("active");
-  });
+  if (resetBtn && overlay) {
+    resetBtn.addEventListener("click", () => {
+      form.reset();
+      overlay.classList.remove("active");
+    });
+  }
 }
 
 // Scroll to Top
 function initScrollTop() {
   const btn = document.getElementById("scroll-top-btn");
+  if (!btn) return;
 
   window.addEventListener("scroll", () => {
     if (window.scrollY > 300) {
@@ -494,7 +528,6 @@ function initScrollTop() {
     }
   });
   
-  // Set initial state
   btn.style.opacity = "0";
   btn.style.pointerEvents = "none";
   btn.style.transition = "opacity 0.3s ease";
@@ -520,13 +553,32 @@ function initCertifications() {
     certsList.innerHTML = "";
     certs.forEach(c => {
       const item = document.createElement("div");
-      item.className = "cert-card glass-card";
-      item.innerHTML = `
-        <div class="cert-card-content">
-          <span class="cert-title">${c.title}</span>
-          <span class="cert-issuer">${c.issuer}</span>
-        </div>
-      `;
+      if (c.image) {
+        item.className = "cert-card-featured glass-card reveal-on-scroll";
+        item.innerHTML = `
+          <div class="cert-img-thumb-wrap">
+            <img src="${c.image}" alt="${c.title}" class="cert-img-thumb">
+          </div>
+          <div class="cert-card-content">
+            <span class="cert-badge-tag">${c.issuer}</span>
+            <h4 class="cert-title">${c.title}</h4>
+            ${c.date ? `<span class="cert-date">${c.date}</span>` : ''}
+            <span class="cert-view-hint">
+              <span>View Certificate</span>
+              <i data-lucide="external-link" style="width: 12px; height: 12px; vertical-align: middle;"></i>
+            </span>
+          </div>
+        `;
+        item.addEventListener("click", () => openCertLightbox(c));
+      } else {
+        item.className = "cert-card glass-card reveal-on-scroll";
+        item.innerHTML = `
+          <div class="cert-card-content">
+            <span class="cert-title">${c.title}</span>
+            <span class="cert-issuer">${c.issuer}</span>
+          </div>
+        `;
+      }
       certsList.appendChild(item);
     });
   }
@@ -535,7 +587,7 @@ function initCertifications() {
     achList.innerHTML = "";
     achievements.forEach(a => {
       const item = document.createElement("div");
-      item.className = "achievement-card glass-card";
+      item.className = "achievement-card glass-card reveal-on-scroll";
       item.innerHTML = `
         <div class="achievement-card-content">
           <span class="achievement-title">${a.title}</span>
@@ -544,5 +596,69 @@ function initCertifications() {
       `;
       achList.appendChild(item);
     });
+  }
+}
+
+// Open Certificate Lightbox Modal
+function openCertLightbox(cert) {
+  const modal = document.getElementById("cert-lightbox-modal");
+  const img = document.getElementById("cert-lightbox-img");
+  const title = document.getElementById("cert-lightbox-title");
+  const meta = document.getElementById("cert-lightbox-meta");
+  const download = document.getElementById("cert-lightbox-download");
+
+  if (!modal || !img) return;
+
+  img.src = cert.image;
+  title.textContent = cert.title;
+  meta.textContent = `${cert.issuer} • Issued: ${cert.date || ''} ${cert.certId ? `(ID: ${cert.certId.substring(0, 16)}...)` : ''}`;
+  download.href = cert.image;
+  download.setAttribute("download", `${cert.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`);
+
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+// Certificate Lightbox Event Listeners
+function initCertLightbox() {
+  const modal = document.getElementById("cert-lightbox-modal");
+  const backdrop = document.getElementById("cert-lightbox-backdrop");
+  const closeBtn = document.getElementById("cert-lightbox-close-btn");
+
+  if (!modal) return;
+
+  const closeLightbox = () => {
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  };
+
+  if (closeBtn) closeBtn.addEventListener("click", closeLightbox);
+  if (backdrop) backdrop.addEventListener("click", closeLightbox);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("active")) {
+      closeLightbox();
+    }
+  });
+}
+
+// Scroll Reveal Animation Engine using IntersectionObserver
+function initScrollReveal() {
+  const elements = document.querySelectorAll(".section-header, .timeline-item, .about-bio-wrap, .skills-column, .certs-achievements-container, .project-card-container");
+  
+  elements.forEach(el => el.classList.add("reveal-on-scroll"));
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+        }
+      });
+    }, { threshold: 0.1 });
+
+    elements.forEach(el => observer.observe(el));
+  } else {
+    elements.forEach(el => el.classList.add("revealed"));
   }
 }

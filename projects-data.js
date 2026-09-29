@@ -79,80 +79,98 @@ const portfolioData = {
   projects: [
     {
       id: "varahi-automotives",
-      title: "Varahi Automotives",
+      title: "Varahi Automotives - Business Web App",
       category: "web-apps",
-      tags: ["Python Flask", "SQLite", "HTML5", "CSS3"],
-      shortDescription: "Full-stack automobile spare parts catalog and inventory management portal.",
-      summary: "Web storefront with product CRUD operations, brand filtering, and WhatsApp ordering integration.",
+      tags: ["Python Flask", "SQLite", "HTML5", "CSS3", "JavaScript"],
+      shortDescription: "A full-stack automobile spare parts catalog and business management portal with product CRUD operations.",
+      longDescription: "Varahi Automotives is a professional web-based storefront and catalog created to streamline operations. The application hosts a complete parts list, dynamic filtering by brand/category, and a WhatsApp call-to-action integration for placing orders. It features a password-protected administrator portal for managing stock levels and product details in real-time.",
       features: [
-        "18+ products catalog across 4 auto brands",
-        "Secure admin portal for CRUD stock management"
+        "Interactive catalog displaying 18+ high-demand products across 4 premier auto brands",
+        "Complete secure admin dashboard with CRUD functionalities for product inventory management",
+        "WhatsApp CTA API integration to instantly initiate orders with pre-filled product details"
       ],
-      codeLink: null
+      image: "assets/project-varahi.png",
+      demoLink: "#",
+      codeLink: "https://github.com/vedhavihith"
     },
     {
       id: "customer-churn",
-      title: "Customer Churn Analytics Engine",
+      title: "Customer Churn & Credit Risk Analytics Engine",
       category: "ai-ml",
       tags: ["Python", "Scikit-learn", "Pandas", "NumPy"],
-      shortDescription: "End-to-end ML pipeline evaluating credit churn risk on 5,000+ customer profiles.",
-      summary: "Predictive behavioral analytics model identifying primary churn triggers with risk scores.",
+      shortDescription: "An end-to-end machine learning pipeline analyzing churn risk on over 5,000 customer profiles.",
+      longDescription: "This analytics platform utilizes predictive modeling to evaluate credit risk and identify potential customer attrition. By processing large-scale behavioral data, the system evaluates core indicators and generates actionable risk scores.",
       features: [
-        "88% prediction accuracy & 85% ROC-AUC score",
-        "Feature importance isolation for risk management"
+        "Engineered a robust preprocessing pipeline for 5,000+ customer entries, handling missing values and scaling",
+        "Achieved an 88% churn prediction accuracy and 85% ROC-AUC score with advanced ensemble classifiers",
+        "Implemented feature importance techniques to isolate primary churn triggers for business strategy"
       ],
-      codeLink: null
+      image: "assets/project-churn.png",
+      demoLink: "#",
+      codeLink: "https://github.com/vedhavihith"
     },
     {
       id: "genai-analytics",
-      title: "GenAI Data Analytics",
+      title: "GenAI Powered Data Analytics",
       category: "analytics",
       tags: ["Generative AI", "Python", "EDA", "Data Storytelling"],
-      shortDescription: "AI-driven delinquency forecasting and financial collection strategy dashboard.",
-      summary: "Tata Forage collaboration merging Exploratory Data Analysis with Generative AI narratives.",
+      shortDescription: "AI-driven delinquency prediction and collections strategy, paired with data storytelling dashboards.",
+      longDescription: "Developed in collaboration with Tata Forage, this system merges exploratory data analysis (EDA) with generative AI techniques to build predictive delinquency models. The platform outputs visual data stories that help financial teams tailor collection strategies.",
       features: [
-        "AI delinquency prediction & forecasting model",
-        "Automated narrative data storytelling dashboards"
+        "Conducted thorough Exploratory Data Analysis (EDA) on historical financial datasets",
+        "Created an AI-driven delinquency prediction model for credit collections forecasting",
+        "Built automated, narrative-based data storytelling dashboards summarizing core trends"
       ],
-      codeLink: null
+      image: "assets/project-analytics.png",
+      demoLink: "#",
+      codeLink: "https://github.com/vedhavihith"
     },
     {
       id: "secure-blog",
       title: "Secure CRUD Blog Application",
       category: "web-apps",
-      tags: ["PHP", "MySQL", "Bootstrap", "Security"],
-      shortDescription: "Secure content management application with bcrypt authentication & SQL safety.",
-      summary: "Backend web app engineered with password hashing, XSS protection, and normalized tables.",
+      tags: ["PHP", "MySQL", "Bootstrap", "Web Security"],
+      shortDescription: "A secure web application for content management featuring authentication and SQL injection protection.",
+      longDescription: "This blog application showcases secure backend web development practices. Built with raw PHP and MySQL, it incorporates authentication systems, request sanitization, and structured relational queries.",
       features: [
-        "Normalized MySQL relational database schemas",
-        "Bcrypt hashing & protection against SQL injection"
+        "Designed database schemas with normalized relational tables for users, posts, and comments",
+        "Implemented secure user authentication utilizing password hashing (bcrypt) and session validation",
+        "Enforced security guards against SQL injection, XSS attacks, and CSRF vulnerabilities"
       ],
+      image: "assets/project-blog.png",
+      demoLink: "#",
       codeLink: "https://github.com/vedhavihith/crud_app"
     },
     {
       id: "jarvis-ai",
-      title: "JARVIS - OS Assistant",
+      title: "JARVIS - OS Automation Assistant",
       category: "ai-ml",
-      tags: ["Python Flask", "SQLite", "PyAutoGUI", "OS Automation"],
-      shortDescription: "Desktop virtual assistant executing local OS controls, screenshots, and telemetry.",
-      summary: "Local Python backend service automating system volume, diagnostic metrics, and PowerShell screens.",
+      tags: ["Python Flask", "SQLite", "Automation", "PyAutoGUI", "OS Control"],
+      shortDescription: "A custom desktop virtual assistant exposing web endpoints to automate volume, screens, and stats.",
+      longDescription: "JARVIS (Just A Rather Very Intelligent System) is a bespoke local virtual assistant and system management app built in Python. Designed to run as a backend service, it features system integration hooks (psutil, pyautogui) to control system volume, capture screen displays via PowerShell forms, record diagnostic metrics, and save custom toggles to a local database.",
       features: [
-        "Real-time CPU, RAM, Disk & battery monitoring",
-        "Native PowerShell screen capture & volume automations"
+        "Real-time system diagnostics dashboard tracking CPU, memory load, disk usage, and battery indicators",
+        "Reliable automated screen capture engine utilizing PowerShell native form graphics and PIL fallbacks",
+        "Complete OS volume and playback control utilizing WScript.Shell COM scripts and ctypes keyboard events"
       ],
-      codeLink: null
+      image: "assets/project-jarvis.png",
+      demoLink: "#",
+      codeLink: "https://github.com/vedhavihith"
     },
     {
       id: "scientific-calculator",
-      title: "Scientific Calculator Android",
+      title: "Scientific Calculator Android App",
       category: "web-apps",
       tags: ["Java", "Android Studio", "XML", "Math Engine"],
       shortDescription: "Native Android scientific calculator supporting complex mathematical expressions.",
-      summary: "Android mobile application performing trigonometric, logarithmic, and expression evaluation.",
+      longDescription: "A mobile application built natively for Android using Java and Android Studio. Features advanced trigonometric, logarithmic, and algebraic functions alongside real-time expression evaluation and interactive history logging.",
       features: [
-        "Trigonometric, logarithmic & exponential engine",
-        "Real-time expression parsing with calculation history"
+        "Trigonometric, logarithmic, and exponential calculation engine",
+        "Real-time expression parsing and operator precedence execution",
+        "Clean responsive mobile UI layout with mathematical history logging"
       ],
+      image: "assets/project-calculator.png",
+      demoLink: "#",
       codeLink: "https://github.com/vedhavihith/Scientific-Calculator-Android"
     }
   ],

@@ -677,7 +677,6 @@ ul {
 }
 
 .projects-grid {
-.projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
@@ -686,8 +685,8 @@ ul {
 /* COMPACT 3D FLIP CARD ENGINE FOR PROJECTS SECTION */
 .project-card-container {
   perspective: 1000px;
-  height: 250px;
-  min-height: 250px;
+  height: 380px;
+  min-height: 380px;
   position: relative;
   border-radius: var(--radius-md);
   cursor: pointer;
@@ -719,7 +718,6 @@ ul {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 1.25rem;
   box-sizing: border-box;
 }
 
@@ -733,6 +731,7 @@ ul {
   border: 1px solid var(--card-border);
   box-shadow: var(--shadow-sm);
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 0;
 }
 
 .project-card-container:hover:not(.flipped) .project-card-front {
@@ -741,50 +740,72 @@ ul {
   box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
-.project-card-header {
+/* Restored Project Card Image Styling */
+.project-card-image-wrapper {
+  width: 100%;
+  height: 145px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+  flex-shrink: 0;
+}
+
+.project-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card-container:hover .project-card-img {
+  transform: scale(1.05);
+}
+
+.project-card-front-content {
+  padding: 1rem 1.15rem 1.15rem;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
+  flex-direction: column;
+  flex: 1;
 }
 
 .project-card-title {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
+  margin-bottom: 0.35rem;
   line-height: 1.3;
+}
+
+.project-card-short-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  flex: 1;
 }
 
 .project-card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-bottom: 0.65rem;
+  gap: 0.3rem;
+  margin-bottom: 0.6rem;
 }
 
 .project-card-tag {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--text-secondary);
   background-color: var(--bg-tertiary);
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 4px;
-}
-
-.project-card-short-desc {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  line-height: 1.45;
-  flex: 1;
-  margin-bottom: 0.75rem;
 }
 
 .project-card-flip-hint {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent-color);
   margin-top: auto;
@@ -803,6 +824,7 @@ ul {
   background: #0d1117;
   border: 1px solid rgba(56, 139, 253, 0.35);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px var(--accent-glow);
+  padding: 1.15rem;
 }
 
 .project-card-back-header {
@@ -844,6 +866,13 @@ ul {
   color: #ffffff;
 }
 
+.project-card-back-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+}
+
 .project-card-back-title {
   font-size: 1.05rem;
   font-weight: 700;
@@ -851,8 +880,8 @@ ul {
   margin-bottom: 0.5rem;
 }
 
-.project-card-summary {
-  font-size: 0.84rem;
+.project-card-long-desc {
+  font-size: 0.82rem;
   color: var(--text-secondary);
   line-height: 1.4;
   margin-bottom: 0.65rem;

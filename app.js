@@ -95,7 +95,7 @@ function initSkills() {
   });
 }
 
-// Compact 3D Flip Project Cards Engine
+// Compact 3D Flip Project Cards Engine with Restored Project Images
 function initProjects() {
   if (!window.portfolioData) return;
   const projects = window.portfolioData.projects;
@@ -116,16 +116,19 @@ function initProjects() {
       <div class="project-card-inner">
         <!-- FRONT SIDE -->
         <div class="project-card-front">
-          <div class="project-card-header">
+          <div class="project-card-image-wrapper">
+            <img src="${project.image}" alt="${project.title}" class="project-card-img" onerror="this.style.display='none';">
+          </div>
+          <div class="project-card-front-content">
             <h3 class="project-card-title">${project.title}</h3>
-          </div>
-          <div class="project-card-tags">
-            ${project.tags.map(t => `<span class="project-card-tag">${t}</span>`).join("")}
-          </div>
-          <p class="project-card-short-desc">${project.shortDescription}</p>
-          <div class="project-card-flip-hint">
-            <span>View Details</span>
-            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            <p class="project-card-short-desc">${project.shortDescription}</p>
+            <div class="project-card-tags">
+              ${project.tags.map(t => `<span class="project-card-tag">${t}</span>`).join("")}
+            </div>
+            <div class="project-card-flip-hint">
+              <span>Click to view details</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
           </div>
         </div>
 
@@ -141,11 +144,15 @@ function initProjects() {
             </button>
           </div>
           
-          <div class="project-card-back-content" style="display: flex; flex-direction: column; flex: 1; height: 100%;">
+          <div class="project-card-back-content">
             <h3 class="project-card-back-title">${project.title}</h3>
-            <p class="project-card-summary">${project.summary}</p>
+            <p class="project-card-long-desc">${project.longDescription}</p>
 
-            <div class="project-card-back-actions" style="margin-top: auto;">
+            <div class="project-card-tags">
+              ${project.tags.map(t => `<span class="project-card-tag tech-tag">${t}</span>`).join("")}
+            </div>
+
+            <div class="project-card-back-actions">
               ${project.codeLink ? `
                 <a href="${project.codeLink}" target="_blank" rel="noopener noreferrer" class="github-repo-btn">
                   <span>View on GitHub</span>

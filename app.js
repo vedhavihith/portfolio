@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initProjects();
   initTimeline();
   initCertifications();
-  initCertLightbox();
   initScrollReveal();
   
   // Initialize Lucide Icons
@@ -96,7 +95,7 @@ function initSkills() {
   });
 }
 
-// Initialize Projects Grid with 3D Flip Card Engine
+// Compact 3D Flip Project Cards Engine
 function initProjects() {
   if (!window.portfolioData) return;
   const projects = window.portfolioData.projects;
@@ -113,32 +112,20 @@ function initProjects() {
     cardContainer.setAttribute("role", "button");
     cardContainer.setAttribute("aria-label", `Project card for ${project.title}. Click to flip card.`);
 
-    let iconName = "code-2";
-    if (project.category === "design") iconName = "palette";
-    else if (project.category === "open-source") iconName = "git-branch";
-
     cardContainer.innerHTML = `
       <div class="project-card-inner">
         <!-- FRONT SIDE -->
         <div class="project-card-front">
-          <div class="project-card-image-wrapper">
-            ${project.image ? `
-              <img src="${project.image}" alt="${project.title}" class="project-card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            ` : ''}
-            <div class="project-card-image-placeholder" style="${project.image ? 'display: none;' : 'display: flex;'}">
-              <i data-lucide="${iconName}" class="project-icon"></i>
-            </div>
-          </div>
-          <div class="project-card-front-content">
-            <div class="project-card-tags">
-              ${project.tags.map(t => `<span class="project-card-tag">${t}</span>`).join("")}
-            </div>
+          <div class="project-card-header">
             <h3 class="project-card-title">${project.title}</h3>
-            <p class="project-card-short-desc">${project.shortDescription}</p>
-            <div class="project-card-flip-hint">
-              <span>View Repository Overview</span>
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </div>
+          </div>
+          <div class="project-card-tags">
+            ${project.tags.map(t => `<span class="project-card-tag">${t}</span>`).join("")}
+          </div>
+          <p class="project-card-short-desc">${project.shortDescription}</p>
+          <div class="project-card-flip-hint">
+            <span>View Details</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </div>
         </div>
 
@@ -146,36 +133,23 @@ function initProjects() {
         <div class="project-card-back">
           <div class="project-card-back-header">
             <div class="github-header-badge">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              <span>GitHub Repository Preview</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              <span>Repository Overview</span>
             </div>
             <button class="flip-back-btn" title="Flip back to front" aria-label="Flip back">
-              <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+              <i data-lucide="x" style="width: 12px; height: 12px;"></i>
             </button>
           </div>
           
-          <div class="project-card-back-content">
+          <div class="project-card-back-content" style="display: flex; flex-direction: column; flex: 1; height: 100%;">
             <h3 class="project-card-back-title">${project.title}</h3>
-            
-            <div class="project-card-tech-section">
-              <span class="tech-label">Technologies Used</span>
-              <div class="project-card-tags">
-                ${project.tags.map(t => `<span class="project-card-tag tech-tag">${t}</span>`).join("")}
-              </div>
-            </div>
+            <p class="project-card-summary">${project.summary}</p>
 
-            <div class="project-card-features-preview">
-              <span class="tech-label">Key Highlights & Specifications</span>
-              <ul class="back-features-list">
-                ${project.features.map(f => `<li>${f}</li>`).join("")}
-              </ul>
-            </div>
-
-            <div class="project-card-back-actions">
-              ${project.codeLink && project.codeLink !== '#' ? `
-                <a href="${project.codeLink}" target="_blank" rel="noopener noreferrer" class="btn github-repo-btn">
+            <div class="project-card-back-actions" style="margin-top: auto;">
+              ${project.codeLink ? `
+                <a href="${project.codeLink}" target="_blank" rel="noopener noreferrer" class="github-repo-btn">
                   <span>View on GitHub</span>
-                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
               ` : `
                 <span class="private-repo-badge">Internal / Private Repository</span>
@@ -188,7 +162,6 @@ function initProjects() {
 
     // 3D Flip Card Interaction
     cardContainer.addEventListener("click", (e) => {
-      // Prevent flipping if user clicked directly on the GitHub repo link
       if (e.target.closest(".github-repo-btn")) {
         e.stopPropagation();
         return;
@@ -205,7 +178,7 @@ function initProjects() {
       });
     }
 
-    // Keyboard navigation (Enter / Space)
+    // Keyboard support (Enter / Space)
     cardContainer.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         if (!e.target.closest(".github-repo-btn")) {
@@ -424,7 +397,6 @@ function initModal() {
   const modal = document.getElementById("project-modal");
   const backdrop = document.getElementById("modal-backdrop");
   const closeBtn = document.getElementById("modal-close-btn");
-  const content = document.getElementById("modal-body-content");
   if (!modal) return;
   
   const closeModal = () => {
@@ -540,7 +512,7 @@ function initScrollTop() {
   });
 }
 
-// Initialize Certifications & Achievements
+// Initialize Certifications & Achievements in Compact Card Format
 function initCertifications() {
   if (!window.portfolioData) return;
   const certs = window.portfolioData.certifications;
@@ -553,32 +525,22 @@ function initCertifications() {
     certsList.innerHTML = "";
     certs.forEach(c => {
       const item = document.createElement("div");
-      if (c.image) {
-        item.className = "cert-card-featured glass-card reveal-on-scroll";
-        item.innerHTML = `
-          <div class="cert-img-thumb-wrap">
-            <img src="${c.image}" alt="${c.title}" class="cert-img-thumb">
-          </div>
-          <div class="cert-card-content">
-            <span class="cert-badge-tag">${c.issuer}</span>
-            <h4 class="cert-title">${c.title}</h4>
-            ${c.date ? `<span class="cert-date">${c.date}</span>` : ''}
-            <span class="cert-view-hint">
-              <span>View Certificate</span>
-              <i data-lucide="external-link" style="width: 12px; height: 12px; vertical-align: middle;"></i>
-            </span>
-          </div>
-        `;
-        item.addEventListener("click", () => openCertLightbox(c));
-      } else {
-        item.className = "cert-card glass-card reveal-on-scroll";
-        item.innerHTML = `
-          <div class="cert-card-content">
-            <span class="cert-title">${c.title}</span>
+      item.className = "cert-card glass-card reveal-on-scroll";
+      item.innerHTML = `
+        <div class="cert-info">
+          <span class="cert-title">${c.title}</span>
+          <div class="cert-meta">
             <span class="cert-issuer">${c.issuer}</span>
+            ${c.date ? `<span>•</span> <span class="cert-date">${c.date}</span>` : ''}
           </div>
-        `;
-      }
+        </div>
+        ${c.link ? `
+          <a href="${c.link}" target="_blank" rel="noopener noreferrer" class="cert-link-btn" title="View Certificate">
+            <span>View Certificate</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </a>
+        ` : ''}
+      `;
       certsList.appendChild(item);
     });
   }
@@ -597,49 +559,6 @@ function initCertifications() {
       achList.appendChild(item);
     });
   }
-}
-
-// Open Certificate Lightbox Modal
-function openCertLightbox(cert) {
-  const modal = document.getElementById("cert-lightbox-modal");
-  const img = document.getElementById("cert-lightbox-img");
-  const title = document.getElementById("cert-lightbox-title");
-  const meta = document.getElementById("cert-lightbox-meta");
-  const download = document.getElementById("cert-lightbox-download");
-
-  if (!modal || !img) return;
-
-  img.src = cert.image;
-  title.textContent = cert.title;
-  meta.textContent = `${cert.issuer} • Issued: ${cert.date || ''} ${cert.certId ? `(ID: ${cert.certId.substring(0, 16)}...)` : ''}`;
-  download.href = cert.image;
-  download.setAttribute("download", `${cert.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`);
-
-  modal.classList.add("active");
-  document.body.style.overflow = "hidden";
-}
-
-// Certificate Lightbox Event Listeners
-function initCertLightbox() {
-  const modal = document.getElementById("cert-lightbox-modal");
-  const backdrop = document.getElementById("cert-lightbox-backdrop");
-  const closeBtn = document.getElementById("cert-lightbox-close-btn");
-
-  if (!modal) return;
-
-  const closeLightbox = () => {
-    modal.classList.remove("active");
-    document.body.style.overflow = "";
-  };
-
-  if (closeBtn) closeBtn.addEventListener("click", closeLightbox);
-  if (backdrop) backdrop.addEventListener("click", closeLightbox);
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("active")) {
-      closeLightbox();
-    }
-  });
 }
 
 // Scroll Reveal Animation Engine using IntersectionObserver
